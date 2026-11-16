@@ -19,6 +19,9 @@ Next.js 16 , Passkey Authrize 2FA PostgreSQL
 * Linux
 
 ***
+* Table: ./schema.sql
+
+***
 * .env
 ```
 DATABASE_URL=postgres://root:admin@localhost:5432/mydb
