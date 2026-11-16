@@ -35,6 +35,7 @@ npm run dev                # http://localhost:3000
 ***
 ### Blog:
 
+https://zenn.dev/knaka0209/scraps/c22a5dc736abcd
 
 ***
 
