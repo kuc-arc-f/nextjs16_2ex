@@ -2,7 +2,7 @@
 import crypto from 'crypto';
 
 const LibCrypto = {
-
+  //@ts-ignore
   sha256: function(s) {
     return crypto.createHash('sha256').update(s).digest('hex');
   },
@@ -14,7 +14,7 @@ const LibCrypto = {
     }
     return Buffer.from(hex, 'hex');
   },
-
+  //@ts-ignore
   encrypt: function(plain) {
     const iv = crypto.randomBytes(12);
     const cipher = crypto.createCipheriv('aes-256-gcm', this.getKey(), iv);
@@ -23,7 +23,9 @@ const LibCrypto = {
     return [iv, tag, enc].map((b) => b.toString('base64')).join('.');
   },
 
+  //@ts-ignore
   decrypt: function (payload) {
+    //@ts-ignore
     const [iv, tag, enc] = payload.split('.').map((s) => Buffer.from(s, 'base64'));
     const decipher = crypto.createDecipheriv('aes-256-gcm', this.getKey(), iv);
     decipher.setAuthTag(tag);

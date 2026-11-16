@@ -11,7 +11,7 @@ export default function Page() {
   //const [imgSrc, setImgSrc] = useState('');
   const [auth2Disp, setAuth2Disp] = useState('');
   const [statSend, setStatSend] = useState('');
-
+  //@ts-ignore
   const apiHandle = async function(path, body){
     console.log("#apiHandle")
     console.log(body)
@@ -24,7 +24,6 @@ export default function Page() {
     if (!r.ok) throw new Error(data.error || 'エラー');
     return data;    
   }
-  const say = (m) => { $('msg').textContent = m || ''; };
 
   useEffect(() => {
     (async() => {

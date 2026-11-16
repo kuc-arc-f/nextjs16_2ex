@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import Config from '../../config'
 import path from 'path';
 import { promises as fs } from 'fs';
-import totp from '../../lib/totp';
+//import totp from '../../lib/totp';
 import Mailer from '../../lib/mailer';
 const ISSUER = process.env.TOTP_ISSUER || 'MyWebApp';
 
@@ -14,14 +14,17 @@ const OTP_TTL_MS = Number(process.env.OTP_TTL_MINUTES || 5) * 60 * 1000;
 const OTP_MAX_ATTEMPTS = Number(process.env.OTP_MAX_ATTEMPTS || 5);
 const OTP_COOLDOWN_MS = Number(process.env.OTP_RESEND_COOLDOWN_SEC || 60) * 1000;
 const SESSION_TTL_MS = Number(process.env.SESSION_TTL_DAYS || 7) * 24 * 60 * 60 * 1000;
-
+//@ts-ignore
 const getUser = (id) => db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+//@ts-ignore
 const normalizeEmail = (v) => (typeof v === 'string' ? v.trim().toLowerCase() : '');
+//@ts-ignore
 const isValidEmail = (e) => e.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
 // 暗号論的に安全な6桁コード（先頭ゼロあり）
 const generateOtp = () => String(crypto.randomInt(0, 1_000_000)).padStart(6, '0');
 // ---------- ユーティリティ ----------
+//@ts-ignore
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
 const statement = {
@@ -84,6 +87,7 @@ export async function POST(req: NextRequest) {
         const bumped = statement.bumpAttempts.run(email, OTP_MAX_ATTEMPTS, now);
         if (bumped.changes === 0) {
             const row = statement.getOtp.get(email);
+            //@ts-ignore
             if (row && row.attempts >= OTP_MAX_ATTEMPTS) {
                 statement.deleteOtp.run(email); // 上限超過で無効化 → 新しいコードを要求させる
                 return NextResponse.json({
@@ -106,7 +110,7 @@ export async function POST(req: NextRequest) {
                 data:body
             });                  
         };
-          
+        //@ts-ignore
         const match = await bcrypt.compare(code, row.code_hash);
         if (!match) {
             return NextResponse.json({
@@ -116,6 +120,7 @@ export async function POST(req: NextRequest) {
             });                  
         };  
         // ワンタイム消費（同じコードの二重使用を防ぐ）
+        //@ts-ignore
         const consumed = statement.consumeOtp.run(email, row.code_hash);
         if (consumed.changes !== 1) {
             return NextResponse.json({
@@ -130,8 +135,10 @@ export async function POST(req: NextRequest) {
             statement.insertUser.run(email, now);
             user = statement.getUserByEmail.get(email);
         }
+        //@ts-ignore
         statement.touchLogin.run(now, user.id);
         const token = crypto.randomBytes(32).toString('hex');
+        //@ts-ignore
         statement.insertSession.run(sha256(token), user.id, now + SESSION_TTL_MS, now);
         // レスポンス
         return NextResponse.json({

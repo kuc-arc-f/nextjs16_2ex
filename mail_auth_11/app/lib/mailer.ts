@@ -20,6 +20,7 @@ const transporter = configured
   : null;
 
 const Mailer = {
+  //@ts-ignore
   sendOtpMail: async function (to, code, ttlMinutes) {
     // 開発用: SMTP 未設定ならコンソールに出力
     if (!transporter) {
