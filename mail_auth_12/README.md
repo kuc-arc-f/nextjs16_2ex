@@ -49,6 +49,20 @@ npm install
 npm run dev                # http://localhost:3000
 ```
 ***
+### images
+
+***
+* Login
+
+![img1](/images/mail_auth_12_1.png)
+
+* mail send, code
+![img1](/images/mail_auth_12_2.png)
+
+* auth code input
+![img1](/images/mail_auth_12_3.png)
+
+***
 ### Blog:
 
 
