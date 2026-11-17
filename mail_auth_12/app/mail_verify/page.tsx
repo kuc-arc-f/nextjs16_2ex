@@ -44,29 +44,6 @@ export default function Page() {
     })();   
   }, []);
 
-  const handleSubmit = async(e: React.FormEvent) => {
-    e.preventDefault();
-    // 実際のログイン処理はここに実装します
-    try{
-      const value = LibAuth.getCookieValue(Config.COOKIE_AUTH_1_KEY)
-      console.log('value=', value);
-      if(!value){ 
-        console.log("Cookie not found, redirecting to /login");
-        return;
-      }
-      const resp  = await apiHandle('/api/setup', 
-        { userId: Number(value) }
-      );
-      console.log(resp);
-      if(!resp.success){
-        alert("error")
-      }else{
-        setImgSrc(resp.data.qrDataUrl);
-      }      
-    }catch(e){console.log(e)}
-    return;    
-  };
-
   const verify = async() => {
     console.log("#verify");
     try{

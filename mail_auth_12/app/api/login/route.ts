@@ -6,6 +6,7 @@ import Config from '../../config'
 import path from 'path';
 import { promises as fs } from 'fs';
 
+//@ts-ignore
 const regenerate = (req) => new Promise((resolve, reject) => req.session.regenerate((e) => (e ? reject(e) : resolve())));
 const DUMMY_HASH = bcrypt.hashSync('dummy-password', 12); // ユーザー存在判定のタイミング差を減らす
 

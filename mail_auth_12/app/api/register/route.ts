@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
                 data:body
             });             
         } catch (e) {
+          //@ts-ignore
           if (e.code === '23505') {
             return NextResponse.json({
                 ret: -1,
