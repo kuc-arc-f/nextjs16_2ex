@@ -19,6 +19,9 @@ Next.js 16 , mail Authrize 2FA PostgreSQL
 * Linux
 
 ***
+* Tables: ./schema.sql
+
+***
 * .env
 ```
 # .env にコピーして使用してください
